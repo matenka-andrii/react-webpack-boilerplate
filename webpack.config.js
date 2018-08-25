@@ -33,7 +33,7 @@ const config = {
             ],
         },
         {
-            test: /\.js$/,
+            test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: {
                 loader: "babel-loader"
@@ -97,6 +97,17 @@ const config = {
                     }
                 }
             ]
+        },
+        {
+            // Exclude `js` files to keep "css" loader working as it injects
+            // it's runtime that would otherwise processed through "file" loader.
+            // Also exclude `html` and `json` extensions so they get processed
+            // by webpacks internal loaders.
+            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/, /\.scss$/, /\.css$/],
+            loader: require.resolve('file-loader'),
+            options: {
+                name: 'assets/[name].[hash:8].[ext]'
+            }
         },
     ]
   },
